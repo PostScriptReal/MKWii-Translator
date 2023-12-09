@@ -7,9 +7,23 @@ class GUI:
 
     def __init__(self):
         self.nroot = Tk()
-        self.scrdir = os.getcwd().replace("\\", "/") + "/"
+        self.usnames = self.parsenames("USnames.txt")
+        self.eunames = self.parsenames("EUnames.txt")
         self.win()
         self.nroot.mainloop()
+    
+    def nl_clean(self, smd):
+        count = -1
+        for l in smd:
+            count += 1
+            smd[count] = l[:-l.count("\n")]
+        return smd
+
+    def parsenames(self, ref):
+        with open(ref, 'r') as n:
+            listt = n.readlines()
+            listt = self.nl_clean(listt)
+            return listt
     
     def imlazy(self, stringy):
         return stringy.lower()
