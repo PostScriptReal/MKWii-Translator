@@ -74,12 +74,12 @@ class GUI:
             self.euString.set("Baby Booster")
         elif cu == self.imlazy("Mini Beast"):
             self.euString.set("Concerto")
-        elif cu == self.imlazy("Rally Romper"):
-            self.euString.set("Tiny Titan")
+        elif cu == self.imlazy("Tiny Titan"):
+            self.euString.set("Rally Romper")
         elif cu == self.imlazy("Jet Bubble"):
             self.euString.set("Bubble Bike")
         else:
-            self.euString.set(cu)
+            self.euString.set(self.usString.get())
     
     def ustranslate(self):
         cu = self.euString.get().lower()
@@ -98,6 +98,6 @@ class GUI:
         elif cu == self.imlazy("Bubble Bike"):
             self.usString.set("Jet Bubble")
         else:
-            self.usString.set(cu)
+            self.usString.set(self.euString.get())
 
 a = GUI()
