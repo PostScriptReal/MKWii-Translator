@@ -7,8 +7,10 @@ class GUI:
 
     def __init__(self):
         self.nroot = Tk()
-        self.usnames = self.parsenames("USnames.txt")
-        self.eunames = self.parsenames("EUnames.txt")
+        self.iusnames = self.parsenames("USnames.txt", True)
+        self.ieunames = self.parsenames("EUnames.txt", True)
+        self.usnames = self.parsenames("USnames.txt", False)
+        self.eunames = self.parsenames("EUnames.txt", False)
         self.win()
         self.nroot.mainloop()
     
@@ -19,14 +21,24 @@ class GUI:
             smd[count] = l[:-l.count("\n")]
         return smd
 
-    def parsenames(self, ref):
+    def parsenames(self, ref, lowercase):
         with open(ref, 'r') as n:
             listt = n.readlines()
-            listt = self.nl_clean(listt)
+            if lowercase:
+                listt = self.imlazyLIST(self.nl_clean(listt))
+            else:
+                listt = self.nl_clean(listt)
             return listt
     
     def imlazy(self, stringy):
         return stringy.lower()
+    
+    def imlazyLIST(self, stringy):
+        count = -1
+        for s in stringy:
+            count += 1
+            stringy[count] = s.lower()
+        return stringy
     
     def win(self):
         self.nroot.title("MKWii Translator")
@@ -63,41 +75,21 @@ class GUI:
         self.euname_entry.grid(column=3, row=2, sticky=(N, E, W), padx=10, pady=5, ipadx=100, ipady=39)
     
     def eutranslate(self):
+        # I originally wanted to have each translation hardcoded (for a reason I still don't know) but that would've
+        # been WAY too clunky and would've made code that's awful to read
         cu = self.usString.get().lower()
-        if cu == "dk summit":
-            self.euString.set("DK's Snowboard Cross")
-        elif cu == "chain chomp wheel":
-            self.euString.set("Chain Chomp Roulette")
-        elif cu == "galaxy colosseum":
-            self.euString.set("Galaxy Arena")
-        elif cu == self.imlazy("Booster Seat"):
-            self.euString.set("Baby Booster")
-        elif cu == self.imlazy("Mini Beast"):
-            self.euString.set("Concerto")
-        elif cu == self.imlazy("Tiny Titan"):
-            self.euString.set("Rally Romper")
-        elif cu == self.imlazy("Jet Bubble"):
-            self.euString.set("Bubble Bike")
-        else:
+        try:
+            transname = self.iusnames.index(cu)
+            self.euString.set(self.eunames[transname])
+        except:
             self.euString.set(self.usString.get())
     
     def ustranslate(self):
         cu = self.euString.get().lower()
-        if cu == "dk's snowboard cross":
-            self.usString.set("DK Summit")
-        elif cu == "chain chomp roulette":
-            self.usString.set("Chain Chomp Wheel")
-        elif cu == "galaxy arena":
-            self.usString.set("Galaxy Colosseum")
-        elif cu == "baby booster":
-            self.usString.set("Booster Seat")
-        elif cu == self.imlazy("Concerto"):
-            self.usString.set("Mini Beast")
-        elif cu == self.imlazy("Rally Romper"):
-            self.usString.set("Tiny Titan")
-        elif cu == self.imlazy("Bubble Bike"):
-            self.usString.set("Jet Bubble")
-        else:
+        try:
+            transname = self.ieunames.index(cu)
+            self.usString.set(self.usnames[transname])
+        except:
             self.usString.set(self.euString.get())
 
 a = GUI()
