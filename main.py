@@ -43,6 +43,9 @@ class GUI:
     def win(self):
         self.nroot.title("MKWii Translator")
 
+        ico = PhotoImage(file = "icon.png")
+        self.nroot.iconphoto(False, ico)
+
         frame = Frame(self.nroot, borderwidth=2, relief="sunken")
         frame.grid(column=6, row=6, sticky=(N, E, S, W))
         self.nroot.columnconfigure(1, weight=1)
